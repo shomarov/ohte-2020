@@ -4,7 +4,11 @@ _Kurssin nimi on muuttunut syksyllä 2018, tätä aiemmin kurssi tunnettiin nime
 
 Kurssilla tutustutaan ohjelmistokehityksen periaatteisiin sekä menetelmiin ja sovelletaan niitä toteuttamalla pienehkö harjoitustyö.
 
-**Viikko 1 tehtävät:**
+**Sisältö**
+
+Ohjelmistotuotannon perusteet. Versionhallinta. Ohjelmistojen automatisoitu testaaminen. UML-mallinnustekniikka. Johdatus ohjelmiston suunnittelun.
+
+**Viikko 1 tehtävät**
 
 [gitlog.txt](https://github.com/shomarov/ohte-2020/blob/master/laskarit/viikko1/gitlog.txt)
 

@@ -1,0 +1,113 @@
+commit fcce12bad04058b4d276f3a8b5ff556b5e855d80
+Author: Artur Shomarov <shomarov@protonmail.com>
+Date:   Mon Mar 16 12:43:13 2020 +0200
+
+    file1 poistettu, file2 uudelleennimetty tiedostoksi file22
+
+ tiedostoja/file2             | 0
+ tiedostoja/{file1 => file22} | 0
+ 2 files changed, 0 insertions(+), 0 deletions(-)
+
+commit 711eefdb972a114e4c2797dd19fdc72bc167a5eb
+Author: Artur Shomarov <shomarov@protonmail.com>
+Date:   Mon Mar 16 12:38:35 2020 +0200
+
+    hakemisto tiedostoja ja tiedostot file1 file2 file3 luotu
+
+ tiedostoja/file1 | 0
+ tiedostoja/file2 | 0
+ tiedostoja/file3 | 0
+ 3 files changed, 0 insertions(+), 0 deletions(-)
+
+commit bd6a1d7e0d526ede57375c9de38a50aac138b3a4
+Author: Artur Shomarov <shomarov@protonmail.com>
+Date:   Mon Mar 16 12:28:56 2020 +0200
+
+    eka.txt ja kolmas.txt muutettu
+
+ eka.txt    | 8 +++-----
+ kolmas.txt | 8 +++++++-
+ 2 files changed, 10 insertions(+), 6 deletions(-)
+
+commit 0e764293112f2b6457a3efdb5f3e711de2c3d886
+Author: Artur Shomarov <shomarov@protonmail.com>
+Date:   Mon Mar 16 12:22:37 2020 +0200
+
+    tiedosto.txt uudelleennimetty tiedostoksi eka.txt
+
+ tiedosto.txt => eka.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit edd85a5480ffd098981562320c14187e6252708b
+Author: Artur Shomarov <shomarov@protonmail.com>
+Date:   Mon Mar 16 12:21:32 2020 +0200
+
+    tiedosto toinen.txt poistettu
+
+ toinen.txt | 1 -
+ 1 file changed, 1 deletion(-)
+
+commit ef0cfc0a256381f398627f3e38912b1eab510803
+Author: Artur Shomarov <shomarov@protonmail.com>
+Date:   Mon Mar 16 11:38:49 2020 +0200
+
+    tiedosto.txt muutettu
+
+ tiedosto.txt | 15 ++-------------
+ 1 file changed, 2 insertions(+), 13 deletions(-)
+
+commit c3bd19ceba266b6202e9d6dd8167832824ac85bd
+Author: Artur Shomarov <shomarov@protonmail.com>
+Date:   Mon Mar 16 11:37:27 2020 +0200
+
+    kopioitu paljon tekstiä tiedostoon tiedosto.txt
+
+ tiedosto.txt | 35 +++++++++++++++++++++++++++++++++++
+ 1 file changed, 35 insertions(+)
+
+commit 982da00de2ce0a51b157818d55f61d39baabf6be
+Author: Artur Shomarov <shomarov@protonmail.com>
+Date:   Mon Mar 16 11:34:36 2020 +0200
+
+    hakemisto stuff ja tiedosto stuff.txt luotu
+
+ stuff/stuff.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit 305cd7aa93822d03122d7c9ae9198a2f6f22c6bd
+Author: Artur Shomarov <shomarov@protonmail.com>
+Date:   Mon Mar 16 11:33:10 2020 +0200
+
+    toinen.txt ja kolmas.txt muutettu
+
+ kolmas.txt | 1 +
+ toinen.txt | 1 +
+ 2 files changed, 2 insertions(+)
+
+commit e96c9bb4366b49cce6f25e3e1c83d061c4fa2eff
+Author: Artur Shomarov <shomarov@protonmail.com>
+Date:   Mon Mar 16 11:31:42 2020 +0200
+
+    kolmas.txt luotu
+
+ kolmas.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit 972f8ef7105a3d146c5a4db8fb0e51a71bed99da
+Author: Artur Shomarov <shomarov@protonmail.com>
+Date:   Mon Mar 16 11:21:39 2020 +0200
+
+    muutos ja lisäys
+
+ tiedosto.txt | 1 +
+ toinen.txt   | 0
+ 2 files changed, 1 insertion(+)
+
+commit bf9f227d1f4343489d50bffddf095180ad87525e
+Author: Artur Shomarov <shomarov@protonmail.com>
+Date:   Mon Mar 16 11:19:20 2020 +0200
+
+    tiedosto.txt luotu
+
+ tiedosto.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)

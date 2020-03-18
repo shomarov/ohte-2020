@@ -1,5 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.mycompany</groupId>
@@ -21,8 +20,14 @@
             <version>4.12</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-library</artifactId>
+            <version>2.2</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
-    
+
     <build>
         <plugins>
             <plugin>
@@ -31,12 +36,12 @@
                     <source>1.8</source>
                     <target>1.8</target>
                 </configuration>
-                <version>2.5</version>
+                <version>3.8.1</version>
             </plugin>
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.3</version>
+                <version>0.8.5</version>
                 <executions>
                     <execution>
                         <id>default-prepare-agent</id>
@@ -45,7 +50,7 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>  
+            </plugin>
         </plugins>
 
     </build>

@@ -1,15 +1,13 @@
-# Ohjelmistotekniikka, kevät 2020
+# DuplicatePhotoFinderAndRenamer
 
-_Kurssin nimi on muuttunut syksyllä 2018, tätä aiemmin kurssi tunnettiin nimellä Ohjelmistotekniikan menetelmät_
+## Description
 
-Kurssilla tutustutaan ohjelmistokehityksen periaatteisiin sekä menetelmiin ja sovelletaan niitä toteuttamalla pienehkö harjoitustyö.
+With this software users are able to scan for duplicate photos, batch rename photos, view and remove photo's metadata.
 
-**Sisältö**
+_created for the Helsinki University Ohjelmistotekniikka 2020 course_
 
-Ohjelmistotuotannon perusteet. Versionhallinta. Ohjelmistojen automatisoitu testaaminen. UML-mallinnustekniikka. Johdatus ohjelmiston suunnittelun.
+## Documentation
 
-**Viikko 1 tehtävät**
+[Software Requirements](https://github.com/shomarov/ohte-2020/blob/master/documentation/requirements.md)
 
-[gitlog.txt](https://github.com/shomarov/ohte-2020/blob/master/laskarit/viikko1/gitlog.txt)
-
-[komentorivi.txt](https://github.com/shomarov/ohte-2020/blob/master/laskarit/viikko1/komentorivi.txt)
+[Timekeeping](https://github.com/shomarov/ohte-2020/blob/master/documentation/timekeeping.md)

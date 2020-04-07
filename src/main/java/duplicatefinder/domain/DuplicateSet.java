@@ -6,11 +6,11 @@ import java.util.List;
 
 public class DuplicateSet {
     private String hash;
-    private List<MediaFile> mediaFiles;
+    private List<MediaFileInfo> files;
 
-    public DuplicateSet(String hash, List<MediaFile> mediaFiles) {
+    public DuplicateSet(String hash, List<MediaFileInfo> files) {
         this.hash = hash;
-        this.mediaFiles = mediaFiles;
+        this.files = files;
     }
 
     public String getHash() {
@@ -18,21 +18,20 @@ public class DuplicateSet {
     }
 
     public int getSize() {
-        return mediaFiles.size();
+        return files.size();
     }
 
     public String getHumanReadableSizeOfAllFiles() {
         long sum = 0;
 
-        for (MediaFile mediaFile : mediaFiles) {
-            sum += mediaFile.getSize();
+        for (MediaFileInfo file : files) {
+            sum += file.getSize();
         }
 
         return FileUtils.byteCountToDisplaySize(sum);
     }
 
-    public List<MediaFile> getMediaFiles() {
-        return mediaFiles;
+    public List<MediaFileInfo> getMediaFileInfos() {
+        return files;
     }
-
 }

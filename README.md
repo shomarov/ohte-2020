@@ -12,7 +12,7 @@ How to use
 
 [Software Requirements](https://github.com/shomarov/ohte-2020/blob/master/documentation/requirements.md)
 
-Architecture Description
+[Architecture Description](https://github.com/shomarov/ohte-2020/blob/master/documentation/architecture.png)
 
 Test Documentation
 

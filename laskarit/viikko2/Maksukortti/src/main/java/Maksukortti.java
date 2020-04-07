@@ -1,7 +1,7 @@
 public class Maksukortti {
-    private double arvo;
     private final double EDULLINEN = 2.5;
     private final double MAUKAS = 4.0;
+    private double arvo;
 
     public Maksukortti(double arvoaAlussa) {
         this.arvo = arvoaAlussa;

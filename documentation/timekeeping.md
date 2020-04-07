@@ -1,8 +1,15 @@
 # timekeeping
 
-|  day  | time | done                                    |
-| :---: | :--- | :-------------------------------------- |
-| 24.03 | 2    | initial software requirements           |
-| 28.03 | 2    | planning classes and software structure |
-| 29.03 | 2    | plan ui, create classes, start coding   |
-| 31.03 | 6    | code ui, business login, tests          |
+|  day  | time | done                                                  |
+| :---: | :--- | :---------------------------------------------------- |
+| 24.03 | 2    | initial software requirements                         |
+| 28.03 | 2    | planning classes and software structure               |
+| 29.03 | 2    | plan ui, create classes, start coding                 |
+| 31.03 | 6    | code ui, business login, tests                        |
+| 02.04 | 6    | plan ui redesign, start ui rewrite                    |
+| 03.04 | 4    | explore javafx, plan ui, code ui                      |
+| 04.04 | 4    | explore javafx, plan ui, code ui                      |
+| 05.04 | 6    | finalize ui decision, code ui, modify business logic, |
+| 06.04 | 2    | plan architecture, refactor                           |
+| 07.04 | 6    | create tests, document architechture                  |
+| Total | 40   |                                                       |

@@ -22,6 +22,8 @@ Test Documentation
 
 [Week 3](https://github.com/shomarov/ohte-2020/releases/tag/v0.3)
 
+[Week 4](https://github.com/shomarov/ohte-2020/releases/tag/v0.4)
+
 ## Command-Line Operations
 
 **_Run all commands from the project root folder_**

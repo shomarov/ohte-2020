@@ -12,4 +12,7 @@
 | 05.04 | 6    | finalize ui decision, code ui, modify business logic, |
 | 06.04 | 2    | plan architecture, refactor                           |
 | 07.04 | 6    | create tests, document architechture                  |
-| Total | 40   |                                                       |
+| 18.04 | 2    | implement photo preview, file deletion                |
+| 19.04 | 2    | research exif, test metadata extraction               |
+| 21.04 | 1    | create sequence diagram, refactor                     |
+| Total | 45   |                                                       |

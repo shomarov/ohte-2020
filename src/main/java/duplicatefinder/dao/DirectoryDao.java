@@ -2,6 +2,7 @@ package duplicatefinder.dao;
 
 import duplicatefinder.domain.DirectoryInfo;
 import duplicatefinder.domain.MediaFileInfo;
+import org.apache.commons.imaging.ImageReadException;
 
 import java.io.File;
 import java.io.IOException;
@@ -65,7 +66,7 @@ public class DirectoryDao {
                 .map(file -> {
                     try {
                         return mediaFileDao.read(file);
-                    } catch (IOException e) {
+                    } catch (IOException | ImageReadException e) {
                         e.printStackTrace();
                     }
                     return null;

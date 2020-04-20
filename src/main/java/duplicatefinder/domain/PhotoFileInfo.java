@@ -11,9 +11,9 @@ import java.util.Locale;
 import java.util.Objects;
 
 public class PhotoFileInfo implements MediaFileInfo {
-    private File file;
+    private final File file;
+    private final String checksum;
     private String humanReadableSize;
-    private String checksum;
 
     private Metadata metadata;
 
@@ -21,15 +21,6 @@ public class PhotoFileInfo implements MediaFileInfo {
             throws IOException {
         this.file = file;
         setHumanReadableSize();
-        this.checksum = calculateChecksum();
-    }
-
-    public PhotoFileInfo(
-            File file, Metadata metadata)
-            throws IOException {
-        this.file = file;
-        setHumanReadableSize();
-        this.metadata = metadata;
         this.checksum = calculateChecksum();
     }
 

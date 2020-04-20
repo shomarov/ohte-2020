@@ -12,7 +12,6 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 
 public class DirectoryDaoTest {
-    File directory;
     DirectoryDao directoryDao;
 
     @Before
@@ -30,7 +29,7 @@ public class DirectoryDaoTest {
     public void readsAmountOfFilesCorrectly() throws IOException {
         directoryDao.setMediaFileDao(new PhotoFileDao());
         List<MediaFileInfo> files = directoryDao.read(new File("src/test/resources"));
-        assertEquals(6, files.size());
+        assertEquals(9, files.size());
     }
 
 }

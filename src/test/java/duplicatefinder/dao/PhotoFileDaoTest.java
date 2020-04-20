@@ -41,7 +41,7 @@ public class PhotoFileDaoTest {
             e.printStackTrace();
         }
 
-        File file = new File(absolutePath + "/IMG_20180902_211000.jpg");
+        File file = new File(absolutePath + "/DSCN0010.jpg");
 
         DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT, Locale.getDefault());
 
@@ -50,7 +50,7 @@ public class PhotoFileDaoTest {
 
     @Test
     public void fileReadRight() throws IOException, ImageReadException {
-        PhotoFileInfo mediaFileRead = photoFileDao.read(new File("src/test/resources/IMG_20180902_211000.jpg"));
+        PhotoFileInfo mediaFileRead = photoFileDao.read(new File("src/test/resources/DSCN0010.jpg"));
         assertEquals(photoFileInfo, mediaFileRead);
     }
 }

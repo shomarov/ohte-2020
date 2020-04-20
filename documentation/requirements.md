@@ -10,11 +10,11 @@ With this software users are able to scan for duplicate photos, batch rename pho
 - user should be able to view the results of a scan **_"done"_**
 - user should be able to scan hard drive or folder for duplicate photos **_"done"_**
 - user should be able to view results of a duplicate photo scan **_"done"_**
-- user should be able to view single photo's metadata
-- user should be able to delete selected photos
-- user should be able to rename selected photos with provided filename format
-- user should be able to remove metadata from selected photos
-- user should be able to remove location data selected photos
+- user should be able to delete selected photos **_"done on week 5"_**
+- user should be able to view single photo's metadata **_"not quite done"_**
+- user should be able to remove location data from selected photos
+- user should be able to remove all metadata from selected photos
+- user should be able to rename photos with selected filename format
 
 ## UI Draft
 

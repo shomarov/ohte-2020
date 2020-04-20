@@ -2,27 +2,38 @@ package duplicatefinder.ui;
 
 import duplicatefinder.dao.DirectoryDao;
 import duplicatefinder.dao.PhotoFileDao;
-import duplicatefinder.domain.DirectoryInfo;
-import duplicatefinder.domain.DuplicateSet;
-import duplicatefinder.domain.MediaFileInfo;
-import duplicatefinder.domain.PhotoFileService;
+import duplicatefinder.domain.*;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.geometry.Bounds;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.MapValueFactory;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
+import javafx.util.Callback;
+import javafx.util.StringConverter;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class UI extends Application {
     PhotoFileDao photoFileDao;
@@ -43,11 +54,12 @@ public class UI extends Application {
         photoFileService = new PhotoFileService(photoFileDao);
 
         // Set Home Folder as initial folder
-        directoryInfoTree = directoryDao.readDirectoryTree(new java.io.File(System.getenv("HOME")));
+        directoryInfoTree = directoryDao.readDirectoryTree(new File(System.getenv("HOME")));
+//        directoryInfoTree = directoryDao.readDirectoryTree(new File("src/"));
     }
 
     @Override
-    public void start(Stage stage) {
+    public void start(Stage stage) throws FileNotFoundException {
         stage.setTitle("Main");
 
         // Menu Bar
@@ -69,7 +81,7 @@ public class UI extends Application {
 
         Menu menu3 = new Menu("Actions");
         MenuItem menuItemScanFolderForFilesRecursively = new MenuItem("Scan folder recursively");
-        MenuItem menuItemScanForDuplicates = new MenuItem("Scan for duplicates");
+        MenuItem menuItemScanForDuplicates = new MenuItem("Scan folder for duplicates");
         MenuItem menuItemBatchRenameFiles = new MenuItem("Batch rename files");
         MenuItem menuItemDeleteSelected = new MenuItem("Delete selected files");
 
@@ -126,16 +138,47 @@ public class UI extends Application {
         files.getColumns().add(fileNameColumn);
         files.getColumns().add(fileSizeColumn);
 
-        TableView<String> metadata = new TableView<>();
-        metadata.setPlaceholder(new Label("No file selected"));
+        files.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
-        TableColumn<String, String> metadataKeyColumn = new TableColumn<>("Tag");
-        TableColumn<String, String> metadataValueColumn = new TableColumn<>("Value");
+        VBox singleImageView = new VBox();
 
-        metadata.getColumns().add(metadataKeyColumn);
-        metadata.getColumns().add(metadataValueColumn);
+        ImageView imageView = new ImageView();
 
-        metadata.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        TableColumn<Map, String> firstDataColumn = new TableColumn<>("Class A");
+        TableColumn<Map, String> secondDataColumn = new TableColumn<>("Class B");
+
+        firstDataColumn.setCellValueFactory(new MapValueFactory("Key"));
+        firstDataColumn.setMinWidth(130);
+        secondDataColumn.setCellValueFactory(new MapValueFactory("Value"));
+        secondDataColumn.setMinWidth(130);
+
+        TableView table_view = new TableView<>(generateDataInMap());
+
+        table_view.setEditable(true);
+        table_view.getSelectionModel().setCellSelectionEnabled(true);
+        table_view.getColumns().setAll(firstDataColumn, secondDataColumn);
+        Callback<TableColumn<Map, String>, TableCell<Map, String>>
+                cellFactoryForMap = new Callback<TableColumn<Map, String>,
+                TableCell<Map, String>>() {
+            @Override
+            public TableCell call(TableColumn p) {
+                return new TextFieldTableCell(new StringConverter() {
+                    @Override
+                    public String toString(Object t) {
+                        return t.toString();
+                    }
+
+                    @Override
+                    public Object fromString(String string) {
+                        return string;
+                    }
+                });
+            }
+        };
+        firstDataColumn.setCellFactory(cellFactoryForMap);
+        secondDataColumn.setCellFactory(cellFactoryForMap);
+
+//        metadata.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
         folders.setOnMouseClicked(
                 e -> {
@@ -148,7 +191,7 @@ public class UI extends Application {
                     DirectoryInfo dir = item.getValue();
 
                     try {
-                        dir.setFiles(directoryDao.read(new java.io.File(dir.getAbsolutePath())));
+                        dir.setFiles(directoryDao.read(new File(dir.getAbsolutePath())));
                     } catch (IOException ex) {
                         ex.printStackTrace();
                     }
@@ -160,16 +203,15 @@ public class UI extends Application {
                 });
 
 //        files.setOnMouseClicked(e -> {
+//            metadata.getItems().clear();
+//
 //            Metadata md = files.getSelectionModel().getSelectedItem().getMetadata();
 //
 //            if (md == null) {
 //                return;
 //            }
 //
-//            ObservableList<String> keys = FXCollections.observableArrayList(md.getMetadata().keySet());
-//            ObservableList<String> values = FXCollections.observableArrayList(md.getMetadata().values());
-//
-//
+//            metadata.getItems().add(md);
 //        });
 
         ContextMenu contextMenuFolder = new ContextMenu();
@@ -198,10 +240,22 @@ public class UI extends Application {
         MenuItem contextDeleteFile = new MenuItem("Delete");
         MenuItem contextProperties = new MenuItem("Properties");
 
+        files.getSelectionModel().getSelectedIndices().addListener((ListChangeListener<Integer>) change -> {
+            if (change.getList().size() > 1 || change.getList().size() == 0) {
+                contextOpenFile.setDisable(true);
+                contextProperties.setDisable(true);
+                imageView.setVisible(false);
+            } else {
+                contextOpenFile.setDisable(false);
+                contextProperties.setDisable(false);
+                imageView.setVisible(true);
+            }
+        });
+
         contextOpenFile.setOnAction(
-                e -> {
-                    openFile(files.getSelectionModel().getSelectedItem().getAbsolutePath());
-                });
+                e -> openFile(files));
+
+        contextDeleteFile.setOnAction(event -> deleteFiles(files));
 
         contextMenuFile
                 .getItems()
@@ -211,6 +265,23 @@ public class UI extends Application {
 
         files.setOnMouseClicked(
                 e -> {
+                    MediaFileInfo selected = files.getSelectionModel().getSelectedItem();
+                    if (selected == null) {
+                        return;
+                    }
+
+                    FileInputStream input = null;
+
+                    try {
+                        input = new FileInputStream(files.getSelectionModel().getSelectedItem().getAbsolutePath());
+                    } catch (FileNotFoundException fileNotFoundException) {
+                        fileNotFoundException.printStackTrace();
+                    }
+                    if (input != null) {
+                        Image image = new Image(input);
+                        imageView.setImage(image);
+                    }
+
                     if (e.getClickCount() == 2) {
                         getHostServices()
                                 .showDocument(files.getSelectionModel().getSelectedItem().getAbsolutePath());
@@ -271,14 +342,14 @@ public class UI extends Application {
                                     contextDuplicatesProperties);
 
                     contextDuplicatesOpenFile.setOnAction(
-                            event -> {
-                                openFile(duplicateFiles.getSelectionModel().getSelectedItem().getAbsolutePath());
-                            });
+                            event -> openFile(duplicateFiles));
+
+                    contextDuplicatesDeleteFile.setOnAction(event -> deleteFiles(duplicateFiles));
 
                     duplicateFiles.setContextMenu(contextMenuDuplicates);
 
-                    java.io.File folderToScan =
-                            new java.io.File(folders.getSelectionModel().getSelectedItem().getValue().getAbsolutePath());
+                    File folderToScan =
+                            new File(folders.getSelectionModel().getSelectedItem().getValue().getAbsolutePath());
 
                     try {
                         List<DuplicateSet> duplicates = photoFileService.scanFolderForDuplicates(folderToScan);
@@ -286,7 +357,6 @@ public class UI extends Application {
                     } catch (IOException ex) {
                         ex.printStackTrace();
                     }
-
 
 
                     duplicateResults.setOnMouseClicked(
@@ -318,7 +388,7 @@ public class UI extends Application {
 
         menuItemOpenFolder.setOnAction(
                 e -> {
-                    java.io.File selectedDirectory = directoryChooser.showDialog(stage);
+                    File selectedDirectory = directoryChooser.showDialog(stage);
                     if (selectedDirectory == null) return;
 
                     TreeItem<DirectoryInfo> newRoot = new TreeItem<>();
@@ -339,18 +409,15 @@ public class UI extends Application {
 
                     for (MediaFileInfo f : folderSelected.getFiles()) {
                         files.getItems().add(f);
-                        System.out.println(f);
                     }
                 });
 
         menuItemQuit.setOnAction(
-                e -> {
-                    Platform.exit();
-                });
+                e -> Platform.exit());
 
-        //    ImageView imageView = new ImageView();
+        singleImageView.getChildren().addAll(table_view, imageView);
 
-        HBox hbox = new HBox(folders, files, metadata);
+        HBox hbox = new HBox(folders, files, singleImageView);
         VBox vbox = new VBox(menuBar, hbox);
 
         Scene mainScene = new Scene(vbox, 1280, 720);
@@ -391,10 +458,20 @@ public class UI extends Application {
         borderPane.prefHeightProperty().bind(borderScene.heightProperty());
         borderPane.prefWidthProperty().bind(borderScene.widthProperty());
 
+        imageView.setPreserveRatio(true);
+
+        BorderPane preview = new BorderPane();
+        preview.setCenter(table_view);
+        preview.setBottom(imageView);
+
+        imageView.setPreserveRatio(true);
+
+        imageView.setFitWidth(248);
+
         borderPane.setTop(menuBar);
         borderPane.setLeft(folders);
         borderPane.setCenter(files);
-        borderPane.setRight(metadata);
+        borderPane.setRight(preview);
         borderPane.setBottom(new Label("Status bar"));
 
         stage.setScene(borderScene);
@@ -415,8 +492,35 @@ public class UI extends Application {
         }
     }
 
-    private void openFile(String absolutePath) {
-        getHostServices().showDocument(absolutePath);
+    private ObservableList<Map> generateDataInMap() {
+        int max = 10;
+        ObservableList<Map> allData = FXCollections.observableArrayList();
+        for (int i = 1; i < max; i++) {
+            Map<String, String> dataRow = new HashMap<>();
+
+            String value1 = "A" + i;
+            String value2 = "B" + i;
+
+            dataRow.put("Key", value1);
+            dataRow.put("Value", value2);
+
+            allData.add(dataRow);
+        }
+        return allData;
+    }
+
+    private void deleteFiles(TableView<MediaFileInfo> table) {
+        List<MediaFileInfo> selected = table.getSelectionModel().getSelectedItems();
+
+        for (MediaFileInfo mf : selected) {
+            photoFileDao.delete(mf);
+        }
+
+        table.getItems().removeAll(selected);
+    }
+
+    private void openFile(TableView<MediaFileInfo> table) {
+        getHostServices().showDocument(table.getSelectionModel().getSelectedItem().getAbsolutePath());
     }
 
     @Override

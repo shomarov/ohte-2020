@@ -10,6 +10,9 @@ import java.text.DateFormat;
 import java.util.Locale;
 import java.util.Objects;
 
+/**
+ * This class encapsulates all essential information and metadata of a photo file
+ */
 public class PhotoFileInfo implements MediaFileInfo {
     private final File file;
     private final String checksum;
@@ -43,6 +46,9 @@ public class PhotoFileInfo implements MediaFileInfo {
         return humanReadableSize;
     }
 
+    /**
+     * Method generates human readable size of type String
+     */
     public void setHumanReadableSize() {
         this.humanReadableSize = FileUtils.byteCountToDisplaySize(this.getSize());
     }

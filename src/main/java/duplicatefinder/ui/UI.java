@@ -2,7 +2,10 @@ package duplicatefinder.ui;
 
 import duplicatefinder.dao.DirectoryDao;
 import duplicatefinder.dao.PhotoFileDao;
-import duplicatefinder.domain.*;
+import duplicatefinder.domain.DirectoryInfo;
+import duplicatefinder.domain.DuplicateSet;
+import duplicatefinder.domain.MediaFileInfo;
+import duplicatefinder.domain.PhotoFileService;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.beans.property.ObjectProperty;
@@ -15,7 +18,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.MapValueFactory;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -24,8 +26,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
-import javafx.util.Callback;
-import javafx.util.StringConverter;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -47,10 +47,9 @@ public class UI extends Application {
     }
 
     @Override
-    public void init() throws IOException {
+    public void init() {
         photoFileDao = new PhotoFileDao();
-        directoryDao = new DirectoryDao();
-        directoryDao.setMediaFileDao(photoFileDao);
+        directoryDao = new DirectoryDao(photoFileDao);
         photoFileService = new PhotoFileService(photoFileDao);
 
         // Set Home Folder as initial folder
@@ -59,7 +58,7 @@ public class UI extends Application {
     }
 
     @Override
-    public void start(Stage stage) throws FileNotFoundException {
+    public void start(Stage stage) {
         stage.setTitle("Main");
 
         // Menu Bar
@@ -144,41 +143,22 @@ public class UI extends Application {
 
         ImageView imageView = new ImageView();
 
-        TableColumn<Map, String> firstDataColumn = new TableColumn<>("Class A");
-        TableColumn<Map, String> secondDataColumn = new TableColumn<>("Class B");
+        TableColumn<Map, String> tagColumn = new TableColumn<>("Tag");
+        TableColumn<Map, String> valueColumn = new TableColumn<>("Value");
 
-        firstDataColumn.setCellValueFactory(new MapValueFactory("Key"));
-        firstDataColumn.setMinWidth(130);
-        secondDataColumn.setCellValueFactory(new MapValueFactory("Value"));
-        secondDataColumn.setMinWidth(130);
+        tagColumn.setCellValueFactory(new MapValueFactory("Tag"));
+        tagColumn.setSortable(false);
 
-        TableView table_view = new TableView<>(generateDataInMap());
+        valueColumn.setCellValueFactory(new MapValueFactory("Value"));
+        valueColumn.setSortable(false);
 
-        table_view.setEditable(true);
-        table_view.getSelectionModel().setCellSelectionEnabled(true);
-        table_view.getColumns().setAll(firstDataColumn, secondDataColumn);
-        Callback<TableColumn<Map, String>, TableCell<Map, String>>
-                cellFactoryForMap = new Callback<TableColumn<Map, String>,
-                TableCell<Map, String>>() {
-            @Override
-            public TableCell call(TableColumn p) {
-                return new TextFieldTableCell(new StringConverter() {
-                    @Override
-                    public String toString(Object t) {
-                        return t.toString();
-                    }
+        TableView<Map> metadata = new TableView<>();
+        metadata.setPlaceholder(new Label("No file selected"));
 
-                    @Override
-                    public Object fromString(String string) {
-                        return string;
-                    }
-                });
-            }
-        };
-        firstDataColumn.setCellFactory(cellFactoryForMap);
-        secondDataColumn.setCellFactory(cellFactoryForMap);
+        metadata.getColumns().add(tagColumn);
+        metadata.getColumns().add(valueColumn);
 
-//        metadata.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        metadata.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
         folders.setOnMouseClicked(
                 e -> {
@@ -280,6 +260,12 @@ public class UI extends Application {
                     if (input != null) {
                         Image image = new Image(input);
                         imageView.setImage(image);
+
+                        if (selected.getMetadata() != null) {
+                            metadata.setItems(generateDataInMap(selected));
+                        } else {
+                            metadata.setPlaceholder(new Label("No metadata"));
+                        }
                     }
 
                     if (e.getClickCount() == 2) {
@@ -415,7 +401,7 @@ public class UI extends Application {
         menuItemQuit.setOnAction(
                 e -> Platform.exit());
 
-        singleImageView.getChildren().addAll(table_view, imageView);
+        singleImageView.getChildren().addAll(metadata, imageView);
 
         HBox hbox = new HBox(folders, files, singleImageView);
         VBox vbox = new VBox(menuBar, hbox);
@@ -461,18 +447,20 @@ public class UI extends Application {
         imageView.setPreserveRatio(true);
 
         BorderPane preview = new BorderPane();
-        preview.setCenter(table_view);
+        preview.setCenter(metadata);
         preview.setBottom(imageView);
 
         imageView.setPreserveRatio(true);
 
         imageView.setFitWidth(248);
+        preview.setPrefWidth(120);
 
         borderPane.setTop(menuBar);
         borderPane.setLeft(folders);
         borderPane.setCenter(files);
         borderPane.setRight(preview);
         borderPane.setBottom(new Label("Status bar"));
+
 
         stage.setScene(borderScene);
         stage.show();
@@ -492,20 +480,36 @@ public class UI extends Application {
         }
     }
 
-    private ObservableList<Map> generateDataInMap() {
-        int max = 10;
+    private ObservableList<Map> generateDataInMap(MediaFileInfo mediaFileInfo) {
+        Map<String, String> metadata = mediaFileInfo.getMetadata().getMetadata();
         ObservableList<Map> allData = FXCollections.observableArrayList();
-        for (int i = 1; i < max; i++) {
+
+        for (String tag : metadata.keySet()) {
             Map<String, String> dataRow = new HashMap<>();
 
-            String value1 = "A" + i;
-            String value2 = "B" + i;
+            String value = metadata.get(tag);
 
-            dataRow.put("Key", value1);
-            dataRow.put("Value", value2);
+            dataRow.put("Tag", tag);
+            dataRow.put("Value", value);
 
             allData.add(dataRow);
         }
+
+        if (mediaFileInfo.getMetadata().hasGpsData()) {
+            Map<String, String> gpsData = mediaFileInfo.getMetadata().getGpsData();
+            for (String tag : gpsData.keySet()) {
+                Map<String, String> dataRow = new HashMap<>();
+
+                String value = gpsData.get(tag);
+
+                dataRow.put("Tag", tag);
+                dataRow.put("Value", value);
+
+                allData.add(dataRow);
+            }
+
+        }
+
         return allData;
     }
 

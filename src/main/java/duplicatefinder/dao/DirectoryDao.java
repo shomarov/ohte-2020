@@ -2,7 +2,6 @@ package duplicatefinder.dao;
 
 import duplicatefinder.domain.DirectoryInfo;
 import duplicatefinder.domain.MediaFileInfo;
-import org.apache.commons.imaging.ImageReadException;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,29 +15,59 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+
+/**
+ * This class offers methods used for interaction with directories
+ */
 public class DirectoryDao {
     private MediaFileDao mediaFileDao;
 
-    public DirectoryDao() {
+    public DirectoryDao(MediaFileDao mediaFileDao) {
+        this.mediaFileDao = mediaFileDao;
     }
 
-    // Use strategy design pattern here
+    /**
+     * Method used to change implementation of MediaFileDao interface
+     * for use with DirectoryDao class on the fly
+     *
+     * @param mediaFileDao MediaFileDao implementation
+     */
     public void setMediaFileDao(MediaFileDao mediaFileDao) {
         this.mediaFileDao = mediaFileDao;
     }
 
+    /**
+     * Method reads specified directory and returns a list of MediaFileInfo objects
+     *
+     * @param directory client specified directory
+     * @return List of MediaFileInfo objects that hold file information
+     * @throws IOException if directory does not exist
+     */
     public List<MediaFileInfo> read(File directory) throws IOException {
         try (Stream<Path> paths = Files.walk(Paths.get(directory.getAbsolutePath()), 1)) {
             return walk(paths);
         }
     }
 
+    /**
+     * Method reads specified directory RECURSIVELY and returns a list of MediaFileInfo objects
+     *
+     * @param directory client defined directory
+     * @return List of MediaFileInfo objects that hold file information
+     * @throws IOException if directory does not exist
+     */
     public List<MediaFileInfo> readRecursively(File directory) throws IOException {
         try (Stream<Path> paths = Files.walk(Paths.get(directory.getAbsolutePath()))) {
             return walk(paths);
         }
     }
 
+    /**
+     * Method reads directory tree structure starting from the specified directory
+     *
+     * @param directory client specified directory
+     * @return populated DirectoryInfo
+     */
     public DirectoryInfo readDirectoryTree(File directory) {
         DirectoryInfo di = new DirectoryInfo(directory);
         List<DirectoryInfo> folders = new ArrayList<>();
@@ -66,7 +95,7 @@ public class DirectoryDao {
                 .map(file -> {
                     try {
                         return mediaFileDao.read(file);
-                    } catch (IOException | ImageReadException e) {
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                     return null;

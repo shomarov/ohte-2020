@@ -3,6 +3,10 @@ package duplicatefinder.domain;
 import java.io.File;
 import java.util.List;
 
+/**
+ * DirectoryInfo class that encapsulates information on the directory tree structure
+ * and the files they contain
+ */
 public class DirectoryInfo {
     private File directory;
     private List<DirectoryInfo> folders;

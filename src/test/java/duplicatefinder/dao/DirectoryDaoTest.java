@@ -16,7 +16,7 @@ public class DirectoryDaoTest {
 
     @Before
     public void setup() {
-        directoryDao = new DirectoryDao();
+        directoryDao = new DirectoryDao(new PhotoFileDao());
     }
 
     @Test

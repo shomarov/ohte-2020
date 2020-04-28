@@ -8,7 +8,7 @@ _created for the Helsinki University Ohjelmistotekniikka 2020 course_
 
 ## Documentation
 
-How to use
+[User Manual](https://github.com/shomarov/ohte-2020/blob/master/documentation/user_manual.md)
 
 [Software Requirements](https://github.com/shomarov/ohte-2020/blob/master/documentation/requirements.md)
 
@@ -23,6 +23,10 @@ Test Documentation
 [Week 3](https://github.com/shomarov/ohte-2020/releases/tag/v0.3)
 
 [Week 4](https://github.com/shomarov/ohte-2020/releases/tag/v0.4)
+
+[Week 5](https://github.com/shomarov/ohte-2020/releases/tag/v0.5)
+
+[Week 6](https://github.com/shomarov/ohte-2020/releases/tag/v0.6)
 
 ## Command-Line Operations
 
@@ -46,7 +50,7 @@ generates executable jar-file to folder target
 
 Run:
 
-    java -jar target/DuplicatePhotoFinderAndRenamer-1.0-SNAPSHOT.jar
+    java -jar target/DuplicatePhotoFinderAndRenamer-0.6-SNAPSHOT.jar
 
 ### Testing
 
@@ -59,3 +63,19 @@ Test coverage report is created with command:
     mvn jacoco:report
 
 You can view the report by opening target/site/jacoco/index.html using your favorite browser
+
+### JavaDoc
+
+JavaDoc is generated with command:
+
+    mvn javadoc:javadoc
+
+JavaDoc can be viewed by opening target/site/apidocs/index.html in browser
+
+### Checkstyle
+
+Checks are run with command:
+
+    mvn jxr:jxr checkstyle:checkstyle
+
+Possible errors can be viewed by opening target/site/checkstyle.html in browser

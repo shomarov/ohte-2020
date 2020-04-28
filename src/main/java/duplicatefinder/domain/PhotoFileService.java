@@ -8,17 +8,27 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class contains methods for interactions with Photos
+ */
 public class PhotoFileService implements MediaFileService {
 
-    private MediaFileDao mediaFileDao;
+    private final MediaFileDao mediaFileDao;
 
     public PhotoFileService(MediaFileDao mediaFileDao) {
         this.mediaFileDao = mediaFileDao;
     }
 
+    /**
+     * This method scans directory for duplicate photos
+     * and returns a list of results
+     *
+     * @param folder client specified directory
+     * @return list of DuplicateSet objects
+     * @throws IOException if file not found
+     */
     public List<DuplicateSet> scanFolderForDuplicates(File folder) throws IOException {
-        DirectoryDao directoryDao = new DirectoryDao();
-        directoryDao.setMediaFileDao(mediaFileDao);
+        DirectoryDao directoryDao = new DirectoryDao(mediaFileDao);
         ScanResult scanResult = new ScanResult();
         List<DuplicateSet> duplicates = new ArrayList<>();
 

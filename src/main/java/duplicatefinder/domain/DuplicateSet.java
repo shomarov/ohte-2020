@@ -4,6 +4,10 @@ import org.apache.commons.io.FileUtils;
 
 import java.util.List;
 
+/**
+ * DuplicateSet class that contains a list of identical files
+ * located at different locations on the file system
+ */
 public class DuplicateSet {
     private String hash;
     private List<MediaFileInfo> files;
@@ -21,6 +25,12 @@ public class DuplicateSet {
         return files.size();
     }
 
+    /**
+     * Method counts and returns the human readable sum of sizes all
+     * files in the set of duplicates
+     *
+     * @return human readable sum of all files in the set
+     */
     public String getHumanReadableSizeOfAllFiles() {
         long sum = 0;
 

@@ -1,18 +1,46 @@
 package duplicatefinder.dao;
 
 import duplicatefinder.domain.MediaFileInfo;
-import org.apache.commons.imaging.ImageReadException;
+import duplicatefinder.domain.Metadata;
 
 import java.io.File;
-import java.io.IOException;
 
+/**
+ * Interface to be used for interaction with different
+ * types of media files (image, video, pdf, etc...)
+ */
 public interface MediaFileDao {
-    MediaFileInfo read(File file) throws IOException, ImageReadException;
+    /**
+     * Method reads file and returns its information
+     *
+     * @param file client specified file
+     * @return MediaFileInfo type object
+     * @throws Exception if file not found
+     */
+    MediaFileInfo read(File file) throws Exception;
 
+
+    /**
+     * Method saves changes made to file
+     *
+     * @param mediaFile client specified file
+     */
     void save(MediaFileInfo mediaFile);
 
+    /**
+     * Method deletes file from the file system
+     *
+     * @param mediaFile client specified file
+     * @return true if successfull, false if failed
+     */
     boolean delete(MediaFileInfo mediaFile);
 
-    // TODO
-    // Metadata readMetadata(File file);
+    /**
+     * Method reads metadata of the file specified
+     *
+     * @param file client specified file
+     * @return Metadata type object
+     * @throws Exception if file not found
+     */
+    Metadata readMetadata(File file) throws Exception;
 }

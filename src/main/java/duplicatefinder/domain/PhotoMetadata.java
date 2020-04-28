@@ -2,13 +2,18 @@ package duplicatefinder.domain;
 
 import java.util.HashMap;
 
+/**
+ * Class that implements Metadata for Photos
+ */
 public class PhotoMetadata implements Metadata {
 
     private HashMap<String, String> metadata;
+    private HashMap<String, String> gpsData;
     private boolean hasGpsData;
 
     public PhotoMetadata() {
         metadata = new HashMap<>();
+        gpsData = new HashMap<>();
     }
 
     public void addMake(String make) {
@@ -67,22 +72,22 @@ public class PhotoMetadata implements Metadata {
         metadata.put("Brightness", brightness);
     }
 
-    public void gpsLatitude(String gpsLatitute) {
+    public void addGpsLatitude(String gpsLatitute) {
         if (gpsLatitute == null) {
             return;
         }
 
         hasGpsData = true;
-        metadata.put("GPSLatitude", gpsLatitute);
+        gpsData.put("GPSLatitude", gpsLatitute);
     }
 
-    public void gpsLongitude(String gpsLongitude) {
+    public void addGpsLongitude(String gpsLongitude) {
         if (gpsLongitude == null) {
             return;
         }
 
         hasGpsData = true;
-        metadata.put("GPSLongitude", gpsLongitude);
+        gpsData.put("GPSLongitude", gpsLongitude);
     }
 
     public boolean hasGpsData() {
@@ -91,14 +96,18 @@ public class PhotoMetadata implements Metadata {
 
 
     @Override
-    public HashMap<String, String> getAll() {
+    public HashMap<String, String> getMetadata() {
         return metadata;
+    }
+
+    public HashMap<String, String> getGpsData() {
+        return gpsData;
     }
 
     @Override
     public void printToConsole() {
-        for (String key : metadata.keySet()) {
-            System.out.println("Key: " + key + ", Value: " + metadata.get(key));
+        for (String tag : metadata.keySet()) {
+            System.out.println("Tag: " + tag + ", Value: " + metadata.get(tag));
         }
     }
 

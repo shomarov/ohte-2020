@@ -1,8 +1,8 @@
-# DuplicatePhotoFinderAndRenamer
+# DuplicatePhotoFinder
 
 ## Description
 
-With this software users are able to scan for duplicate photos, batch rename photos, view and remove photo's metadata.
+With this software users are able to scan for and manage duplicate photos.
 
 _created for the Helsinki University Ohjelmistotekniikka 2020 course_
 
@@ -14,7 +14,7 @@ _created for the Helsinki University Ohjelmistotekniikka 2020 course_
 
 [Architecture Description](https://github.com/shomarov/ohte-2020/blob/master/documentation/architecture.md)
 
-Test Documentation
+[Testing Documentation](https://github.com/shomarov/ohte-2020/blob/master/documentation/testing.md)
 
 [Timekeeping](https://github.com/shomarov/ohte-2020/blob/master/documentation/timekeeping.md)
 
@@ -28,6 +28,8 @@ Test Documentation
 
 [Week 6](https://github.com/shomarov/ohte-2020/releases/tag/v0.6)
 
+[Final Release](https://github.com/shomarov/ohte-2020/releases/tag/v1.0)
+
 ## Command-Line Operations
 
 **_Run all commands from the project root folder_**
@@ -36,11 +38,11 @@ Test Documentation
 
 Run:
 
-    mvn compile exec:java -Dexec.mainClass=duplicatefinder.Main
+    mvn compile exec:java -Dexec.mainClass=duplicatephotofinder.Main
 
 ### Generating executable jar file
 
-Command:
+Run:
 
     mvn package
 
@@ -50,7 +52,7 @@ generates executable jar-file to folder target
 
 Run:
 
-    java -jar target/DuplicatePhotoFinderAndRenamer-0.6-SNAPSHOT.jar
+    java -jar target/DuplicatePhotoFinder-1.0-SNAPSHOT.jar
 
 ### Testing
 

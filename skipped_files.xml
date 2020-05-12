@@ -5,5 +5,5 @@
         "http://www.puppycrawl.com/dtds/suppressions_1_1.dtd">
 
 <suppressions>
-    <suppress checks="[a-zA-Z0-9]*" files="duplicatefinder.ui.UI.java"/>
+    <suppress checks="[a-zA-Z0-9]*" files="duplicatephotofinder.ui.UI.java"/>
 </suppressions>

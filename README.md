@@ -4,7 +4,7 @@
 
 With this software users are able to scan for and manage duplicate photos.
 
-_created for the Helsinki University Ohjelmistotekniikka 2020 course_
+_created for the Helsinki University's Software Development Methods 2020 course_
 
 ## Screenshot
 

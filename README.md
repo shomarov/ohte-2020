@@ -6,6 +6,10 @@ With this software users are able to scan for and manage duplicate photos.
 
 _created for the Helsinki University Ohjelmistotekniikka 2020 course_
 
+## Screenshot
+
+[![Screenshot](documentation/screenshot.png)](https://github.com/shomarov/ohte-2020/blob/master/documentation/screenshot.png)
+
 ## Documentation
 
 [User Manual](https://github.com/shomarov/ohte-2020/blob/master/documentation/user_manual.md)
